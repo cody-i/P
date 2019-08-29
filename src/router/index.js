@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import mainPage from '@/components/mainPage'
-import food from '@/components/food'
+import WorkFlow from '@/components/WorkFlow'
 import seller from '@/components/seller'
 import Home from '@/components/Home'
 
@@ -26,9 +26,9 @@ export default new Router({
           component: Home
         },
         {
-          path: 'food',
-          name: 'food',
-          component: food
+          path: 'WorkFlow',
+          name: 'WorkFlow',
+          component: WorkFlow
         },
         {
           path: 'seller',

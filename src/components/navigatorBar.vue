@@ -22,7 +22,7 @@
         </template>
         <el-menu-item-group>
           <template slot="title">分组一</template>
-          <el-menu-item index="food">选项1</el-menu-item>
+          <el-menu-item index="WorkFlow">作业流管理页面</el-menu-item>
           <el-menu-item index="seller">选项2</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group title="分组2" :span="3">
