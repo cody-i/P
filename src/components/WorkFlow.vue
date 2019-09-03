@@ -1,19 +1,47 @@
 <template>
 <session>
-    <div class="header">
+    <div class="header"><!-- 通知栏 -->
         这里是通知区域
         <p>课题1：怎么让JS数据换行</p>
     </div>
-    <div>
-        这里是表格区域
-        <el-table :data="tableData" style="width:100%" border max-height="400px" :highlight-current-row='true'>
+    <div><!-- 主体部分 -->
+        <el-row :gutter="20">   <!-- 工具栏 -->
+            <el-col :span="1">
+                <el-dropdown trigger="click" @command='handleCommand'>
+                <el-button type="primary">
+                    表格操作<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command=1>添加</el-dropdown-item>
+                    <el-dropdown-item command=2>删除</el-dropdown-item>
+                    <el-dropdown-item command=3>更新</el-dropdown-item>
+                </el-dropdown-menu>
+                </el-dropdown>
+            </el-col>
+            <el-col :span="1" :offset="1">
+                <el-dropdown trigger="click">
+                <el-button type="primary">
+                    更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>黄金糕</el-dropdown-item>
+                    <el-dropdown-item>狮子头</el-dropdown-item>
+                    <el-dropdown-item>螺蛳粉</el-dropdown-item>
+                    <el-dropdown-item>双皮奶</el-dropdown-item>
+                    <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                </el-dropdown-menu>
+                </el-dropdown>
+            </el-col>
+        </el-row>
+
+        <el-table :data="tableData" style="width:100%" border max-height="400px" :highlight-current-row='true'> <!-- 表格显示 -->
             <el-table-column prop="name" label="组员姓名" :width="tableWidth">
             </el-table-column>
             <el-table-column prop="hasTodo" label="待办事项" :width="tableWidth">
                 <template slot-scope="scope" v-if="scope.row.hasTodo.length > 0">
                     <el-popover v-for="item in scope.row.hasTodo" :key="item" placement="right" :title="item.hasTodo_title" width="150" trigger="click">
-                        <p><span>简述：</span>{{item.hasTodo_detail}}</p>
-                        <p>期间：{{item.needTime}}人/日</p>
+                        <p><span style="color:blue">简述：</span>{{item.hasTodo_detail}}</p>
+                        <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                         <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                     </el-popover>
                 </template>
@@ -44,7 +72,26 @@
                 <el-table-column prop="" label="内部RV" :width="tableWidth"></el-table-column>
             </el-table-column>
         </el-table>
-        尾巴
+        
+        <template>      <!-- 隐藏的弹窗放这里 -->
+            <el-dialog title="信息操作" :visible.sync="recordType" width="30%" :before-close="handleClose">
+                <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+                <el-form-item label="名称">
+                    <el-input v-model="formLabelAlign.name"></el-input>
+                </el-form-item>
+                <el-form-item label="活动区域">
+                    <el-input v-model="formLabelAlign.region"></el-input>
+                </el-form-item>
+                <el-form-item label="活动形式">
+                    <el-input v-model="formLabelAlign.type"></el-input>
+                </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="recordType = 0">取 消</el-button>
+                    <el-button type="primary" @click="recordType = 0">{{recordMsg}}</el-button>
+                </span>
+            </el-dialog>
+        </template>
     </div>
     
 </session>
@@ -56,6 +103,14 @@ export default {
     data(){
         return{
             msg:'dddddddd',
+            recordType: 0,                      // record-控制弹窗flag
+            recordMsg:'',                       // record-弹窗msg
+            formLabelAlign: {                   // record-提交表单信息
+                name:'',
+                region:'',
+                type:'',
+            },
+
             tableWidth: '100',                  // 表格的宽设置
             tableData:[                         // 表格数据
                 {
@@ -111,9 +166,25 @@ export default {
         }
     },
     methods:{
-        clickTips: (item) =>{
-            alert(item.hasTodo_title);
-
+        handleCommand(command){     // 对应下拉菜单的数据操作，0：隐藏， 1：添加， 2：删除， 3：更新
+            if(command == 1){
+                this.recordMsg = '添加';
+                this.recordType = 1;
+            }else if(command == 2){
+                this.recordMsg = '删除';
+                this.recordType = 2;
+            }else if(command == 3){
+                this.recordMsg = '更新';
+                this.recordType = 3;
+            }else{
+                this.recordMsg = '';
+                this.recordType = 0;
+            }
+        }
+    },
+    filters:{
+        filterPeriod: (time) => {
+            return `${time}人/日`
         },
     }
 }
@@ -121,10 +192,9 @@ export default {
 
 <style scoped>
 .header {
-    background-color: rgb(214, 223, 200);
+    border: 1px solid red;
     height: 100px;
 }
-el-popover.p.span {
-    color: blue;
-}
+
+
 </style>
