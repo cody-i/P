@@ -2,6 +2,7 @@
 <session>
     <div class="header">
         这里是通知区域
+        <p>课题1：怎么让JS数据换行</p>
     </div>
     <div>
         这里是表格区域
@@ -11,7 +12,8 @@
             <el-table-column prop="hasTodo" label="待办事项" :width="tableWidth">
                 <template slot-scope="scope" v-if="scope.row.hasTodo.length > 0">
                     <el-popover v-for="item in scope.row.hasTodo" :key="item" placement="right" :title="item.hasTodo_title" width="150" trigger="click">
-                        <p>{{item.hasTodo_detail}}</p>
+                        <p><span>简述：</span>{{item.hasTodo_detail}}</p>
+                        <p>期间：{{item.needTime}}人/日</p>
                         <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                     </el-popover>
                 </template>
@@ -26,7 +28,7 @@
                 <el-table-column prop="" label="外部RV" :width="tableWidth"></el-table-column>
                 <el-table-column prop="" label="内部RV" :width="tableWidth"></el-table-column>
             </el-table-column>
-            <el-table-column prop="" label="テスト式样书" :width="tableWidth">
+            <el-table-column prop="" label="测试式样书" :width="tableWidth">
                 <el-table-column prop="" label="实施" :width="tableWidth"></el-table-column>
                 <el-table-column prop="" label="外部RV" :width="tableWidth"></el-table-column>
                 <el-table-column prop="" label="内部RV" :width="tableWidth"></el-table-column>
@@ -61,7 +63,7 @@ export default {
                     hasTodo:[                   // 待办事项
                         {
                             hasTodo_title:'测试',
-                            hasTodo_detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊<br>周末约会走起啊',
+                            hasTodo_detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                             needTime:2,
                         },{
                             hasTodo_title:'coding',
@@ -122,5 +124,7 @@ export default {
     background-color: rgb(214, 223, 200);
     height: 100px;
 }
-
+el-popover.p.span {
+    color: blue;
+}
 </style>
