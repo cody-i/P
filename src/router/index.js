@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import mainPage from '@/components/mainPage'
 import WorkFlow from '@/components/WorkFlow'
-import seller from '@/components/seller'
+import ReportPage from '@/components/ReportPage'
 import Home from '@/components/Home'
 
 
@@ -31,9 +31,9 @@ export default new Router({
           component: WorkFlow
         },
         {
-          path: 'seller',
-          name: 'seller',
-          component: seller
+          path: 'ReportPage',
+          name: 'ReportPage',
+          component: ReportPage
         },
       ],
     },

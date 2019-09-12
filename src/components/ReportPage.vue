@@ -1,6 +1,6 @@
 <template>
-<div class="bg">
-  <el-button>{{msg}}</el-button>
+<div class="header">
+    <p>{{msg}}</p>
 </div>
 </template>
 
@@ -9,7 +9,7 @@ export default {
     name:'seller',
     data(){
         return{
-            msg: 'this is seller button',
+            msg: '这是作业报告页面，主要查询每日的作业报告',
         }
     },    
 }
