@@ -66,7 +66,7 @@ export default {
     created:()=>{
     },
     mounted: function(){
-        console.log(this.personNotices);
+        // console.log(this.personNotices);
         this.st = setInterval(()=>{
             var lastObj = this.personNotices.pop();         // 取得，并删除数组中最后一个元素
             this.personNotices.unshift(lastObj);            // 向数组头部插入一个元素

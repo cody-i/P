@@ -37,6 +37,7 @@
             <el-table :data="tableData" style="width:100%" border max-height="400px" :highlight-current-row='true'> <!-- 表格显示 -->
                 <el-table-column prop="name" label="组员姓名" :width="tableWidth">
                 </el-table-column>
+
                 <el-table-column prop="hasTodo" label="待办事项" :width="tableWidth">
                     <template slot-scope="scope" v-if="scope.row.hasTodo.length > 0">
                         <el-popover v-for="item in scope.row.hasTodo" :key="item.sequence" placement="right" :title="item.title" width="150" trigger="click">
@@ -46,21 +47,36 @@
                         </el-popover>
                     </template>
                 </el-table-column>
-                <el-table-column prop="" label="调查" :width="tableWidth">
-                    <template slot-scope="scope" v-if="scope.row.inquiry.length > 0">
-                        <el-table-column prop="" label="实施" :width="tableWidth">
+
+                <el-table-column prop="inquiry" label="调查" :width="tableWidth">
+                    <el-table-column prop="doing" label="实施" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.inquiry.doing.length > 0">
                             <el-popover v-for="item in scope.row.inquiry.doing" :key="item.sequence" placement="right" :title="item.title" width="150" trigger="click">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
-                        </el-table-column>
-                    </template>
-                    <el-table-column prop="" label="外部RV" :width="tableWidth">
-
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="" label="内部RV" :width="tableWidth">
+                    
+                    <el-table-column prop="outsideRV" label="外部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.inquiry.outsideRV.length > 0">
+                            <el-popover v-for="item in scope.row.inquiry.outsideRV" :key="item.sequence" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
 
+                    <el-table-column prop="insideRV" label="内部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.inquiry.insideRV.length > 0">
+                            <el-popover v-for="item in scope.row.inquiry.insideRV" :key="item.sequence" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
                     </el-table-column>
                 </el-table-column>
                 <el-table-column prop="" label="详细设计书" :width="tableWidth">
@@ -86,21 +102,25 @@
             </el-table>
             
             <template>      <!-- 隐藏的弹窗放这里 -->
-                <el-dialog title="信息操作" :visible.sync="recordType" width="30%" :before-close="handleClose">
-                    <el-form label-position="right" label-width="80px" :model="formLabelAlign">
-                    <el-form-item label="名称">
-                        <el-input v-model="formLabelAlign.name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="活动区域">
-                        <el-input v-model="formLabelAlign.region"></el-input>
-                    </el-form-item>
-                    <el-form-item label="活动形式">
-                        <el-input v-model="formLabelAlign.type"></el-input>
-                    </el-form-item>
+                <el-dialog title="信息操作" :visible.sync="dialogEventAdd.displayFlag" width="30%" :before-close="handleClose">
+                    <el-form label-position="right" label-width="120px" :model="dialogEventAdd.formLabelAlign">
+                        <el-form-item label="作业所属：">
+                            <el-cascader v-model="dialogEventAdd.workType" :options="dialogEventAdd.options" :props="{expandTrigger: 'hover'}"></el-cascader>
+                        </el-form-item>
+                        <el-form-item label="写入Title：">
+                            <el-input v-model="dialogEventAdd.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="写入简述：">
+                            <el-input v-model="dialogEventAdd.detail"></el-input>
+                        </el-form-item>
+                        <el-form-item label="写入工数：">
+                            <el-input v-model="dialogEventAdd.needTime"></el-input>
+                        </el-form-item>
                     </el-form>
+                    
                     <span slot="footer" class="dialog-footer">
-                        <el-button @click="recordType = false">取 消</el-button>
-                        <el-button type="primary" @click="recordType = false">{{recordMsg}}</el-button>
+                        <el-button @click="addCancel">取 消</el-button>
+                        <el-button type="primary" @click="addConfirm">{{dialogEventAdd.recordMsg}}</el-button>
                     </span>
                 </el-dialog>
             </template>
@@ -113,22 +133,57 @@ export default {
     name:'WorkFlow',
     data(){
         return{
-            msg:'dddddddd',
-            recordType: false,                  // record-控制弹窗flag
-            recordMsg:'',                       // record-弹窗msg
-            formLabelAlign: {                   // record-提交表单信息
-                name:'',
-                region:'',
-                type:'',
+            msg:'dddddddd',                     // test
+
+            dialogEventAdd:{                 // 事项变动对话框对应数据
+                displayFlag: false,             // 控制弹窗flag
+                recordMsg:'进击',               // 弹窗右下角显示的msg
+                options:[
+                    {value:'待办事项', label:'待办事项'},
+                    {value:'调查', label:'调查', children:[
+                            {value:'实施', label:'实施'},
+                            {value:'外部review', label:'外部review'},
+                            {value:'内部review', label:'内部review'}
+                        ]
+                    },
+                    {value:'详细设计书', label:'详细设计书', children:[
+                            {value:'实施', label:'实施'},
+                            {value:'外部review', label:'外部review'},
+                            {value:'内部review', label:'内部review'}
+                        ]
+                    },
+                    {value:'测试式样书', label:'测试式样书', children:[
+                            {value:'实施', label:'实施'},
+                            {value:'外部review', label:'外部review'},
+                            {value:'内部review', label:'内部review'}
+                        ]
+                    },
+                    {value:'代码实装', label:'代码实装', children:[
+                            {value:'实施', label:'实施'},
+                            {value:'外部review', label:'外部review'},
+                            {value:'内部review', label:'内部review'}
+                        ]
+                    },
+                    {value:'测试', label:'测试', children:[
+                            {value:'实施', label:'实施'},
+                            {value:'外部review', label:'外部review'},
+                            {value:'内部review', label:'内部review'}
+                        ]
+                    },
+                ],
+                workType:'',
+                title:'',
+                detail:'',
+                needTime:'',
             },
 
             tableWidth: '100',                  // 表格的宽设置
             tableData:[                         // 表格数据
                 {
-                    name:'马茹',                // 人员姓名
-                    hasTodo:[                   // 待办事项
+                    name:'马茹',                    // 人员姓名
+                    hasTodo:[                       // 待办事项
                         {
-                            sequence: 1,        // 序列号，拿来放循环渲染的ID
+                            sequence: 1,            // 序列号，拿来放循环渲染的ID
                             title:'测试',
                             detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                             needTime:2,
@@ -150,10 +205,10 @@ export default {
                         }
                     ],
                     inquiry:{           // 调查
-                        doing:[
+                        doing:[         // 实施
                             {
                                 sequence: 1,
-                                title:'测试',
+                                title:'调查_实施',
                                 detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                                 needTime:2,
                             },{
@@ -172,10 +227,24 @@ export default {
                                 detail:'客户紧急需求，明天上午需要做完',
                                 needTime:1,
                             }
-                        ],       // 实施
-                        outsideRV:[],   // 外部review
-                        insideRV:[],    // 内部review
-                    },
+                        ],
+                        outsideRV:[     // 外部RV
+                            {
+                                sequence: 1,
+                                title:'调查_外部RV',
+                                detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
+                                needTime:2,
+                            }
+                        ],
+                        insideRV:[      // 内部RV
+                            {
+                                sequence: 1,
+                                title:'调查_内部RV',
+                                detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
+                                needTime:2,
+                            }
+                        ],
+                    }
                 },{
                     name:'秋香',
                     hasTodo:[
@@ -186,6 +255,12 @@ export default {
                             needTime:1,
                         }
                     ],
+                    inquiryDoing:[],
+                    inquiry:{
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    }
                 },{
                     name:'唐品',
                     hasTodo:[
@@ -202,9 +277,21 @@ export default {
                             needTime:1,
                         }
                     ],
+                    inquiryDoing:[],
+                    inquiry:{
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    }
                 },{
                     name:'沈万强',
                     hasTodo:[],
+                    inquiryDoing:[],
+                    inquiry:{
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    }
                 }
             ],
 
@@ -213,22 +300,29 @@ export default {
     methods:{
         handleCommand(command){     // 对应下拉菜单的数据操作，false：隐藏， 1：添加， 2：删除， 3：更新
             if(command == 1){
-                this.recordMsg = '添加';
-                this.recordType = 1;
+                this.dialogEventAdd.displayFlag = true;
             }else if(command == 2){
-                this.recordMsg = '删除';
-                this.recordType = 2;
+                
             }else if(command == 3){
-                this.recordMsg = '更新';
-                this.recordType = 3;
+                
             }else{
-                this.recordMsg = '';
-                this.recordType = false;
+
             }
         },
-        handleClose(){              // 添加，删除，更新菜单点击确定后的操作
+        handleClose(){              // 【添加】对话框关闭前的操作函数
             // todo
-        }
+        },
+        addCancel(){                // 【添加】对话框点击【取消】的操作函数
+            this.dialogEventAdd.displayFlag = false;
+        },
+        addConfirm(){               // 【添加】对话框点击【确定】的操作函数
+            // 先判断本组中有没有这个人 todo
+
+            // 获取数据
+            // console.log(this.dialogEventAdd);
+            // 关闭对话框
+            this.dialogEventAdd.displayFlag = false;
+        },
     },
     filters:{
         filterPeriod: (time) => {
