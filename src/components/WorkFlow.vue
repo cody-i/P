@@ -40,7 +40,7 @@
 
                 <el-table-column prop="hasTodo" label="待办事项" :width="tableWidth">
                     <template slot-scope="scope" v-if="scope.row.hasTodo.length > 0">
-                        <el-popover v-for="item in scope.row.hasTodo" :key="item.sequence" placement="right" :title="item.title" width="150" trigger="click">
+                        <el-popover v-for="(item, index) in scope.row.hasTodo" :key="index" placement="right" :title="item.title" width="150" trigger="click">
                             <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                             <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                             <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
@@ -51,7 +51,7 @@
                 <el-table-column prop="inquiry" label="调查" :width="tableWidth">
                     <el-table-column prop="doing" label="实施" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.doing.length > 0">
-                            <el-popover v-for="item in scope.row.inquiry.doing" :key="item.sequence" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.inquiry.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
@@ -61,7 +61,7 @@
                     
                     <el-table-column prop="outsideRV" label="外部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.outsideRV.length > 0">
-                            <el-popover v-for="item in scope.row.inquiry.outsideRV" :key="item.sequence" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.inquiry.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
@@ -71,7 +71,7 @@
 
                     <el-table-column prop="insideRV" label="内部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.insideRV.length > 0">
-                            <el-popover v-for="item in scope.row.inquiry.insideRV" :key="item.sequence" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.inquiry.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
@@ -183,22 +183,18 @@ export default {
                     name:'马茹',                    // 人员姓名
                     hasTodo:[                       // 待办事项
                         {
-                            sequence: 1,            // 序列号，拿来放循环渲染的ID
                             title:'测试',
                             detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                             needTime:2,
                         },{
-                            sequence: 2,
                             title:'coding',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
                         },{
-                            sequence: 3,
                             title:'式样书作成',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
                         },{
-                            sequence: 4,
                             title:'调查',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
@@ -207,22 +203,18 @@ export default {
                     inquiry:{           // 调查
                         doing:[         // 实施
                             {
-                                sequence: 1,
                                 title:'调查_实施',
                                 detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                                 needTime:2,
                             },{
-                                sequence: 2,
                                 title:'coding',
                                 detail:'客户紧急需求，明天上午需要做完',
                                 needTime:1,
                             },{
-                                sequence: 3,
                                 title:'式样书作成',
                                 detail:'客户紧急需求，明天上午需要做完',
                                 needTime:1,
                             },{
-                                sequence: 4,
                                 title:'调查',
                                 detail:'客户紧急需求，明天上午需要做完',
                                 needTime:1,
@@ -230,7 +222,6 @@ export default {
                         ],
                         outsideRV:[     // 外部RV
                             {
-                                sequence: 1,
                                 title:'调查_外部RV',
                                 detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                                 needTime:2,
@@ -238,7 +229,6 @@ export default {
                         ],
                         insideRV:[      // 内部RV
                             {
-                                sequence: 1,
                                 title:'调查_内部RV',
                                 detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                                 needTime:2,
@@ -249,7 +239,6 @@ export default {
                     name:'秋香',
                     hasTodo:[
                         {
-                            sequence: 1,
                             title:'调查',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
@@ -265,13 +254,11 @@ export default {
                     name:'唐品',
                     hasTodo:[
                         {
-                            sequence: 1,
                             title:'调查',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
                         },
                         {
-                            sequence: 2,
                             title:'调查',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
@@ -317,11 +304,29 @@ export default {
         },
         addConfirm(){               // 【添加】对话框点击【确定】的操作函数
             // 先判断本组中有没有这个人 todo
-
+            var flag = false;
             // 获取数据
-            // console.log(this.dialogEventAdd);
+            for(var i = 0; i < this.tableData.length; i++){
+                if(this.tableData[i].name == this.$store.state.name){
+                    // 找到所属分类
+                    if(this.dialogEventAdd.workType[0] == 'hasTodo'){
+                        this.tableData[i].hasTodo.push({
+                            title: this.dialogEventAdd.title,
+                            detail: this.dialogEventAdd.detail,
+                            needTime: this.dialogEventAdd.needTime,
+                        });
+                    }
+                    flag = true;
+                    break;
+                }
+            }
             // 关闭对话框
             this.dialogEventAdd.displayFlag = false;
+            // 没这个人时，跳出错误框
+            if(!flag){
+                alert('没这个人，无法新建');
+            }
+            console.log(this.tableData);
         },
     },
     filters:{
