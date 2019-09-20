@@ -100,30 +100,29 @@
                     <el-table-column prop="" label="内部RV" :width="tableWidth"></el-table-column>
                 </el-table-column>
             </el-table>
-            
-            <template>      <!-- 隐藏的弹窗放这里 -->
-                <el-dialog title="信息操作" :visible.sync="dialogEventAdd.displayFlag" width="30%" :before-close="handleClose">
-                    <el-form label-position="right" label-width="120px" :model="dialogEventAdd.formLabelAlign">
-                        <el-form-item label="作业所属：">
-                            <el-cascader v-model="dialogEventAdd.workType" :options="dialogEventAdd.options" :props="{expandTrigger: 'hover'}"></el-cascader>
-                        </el-form-item>
-                        <el-form-item label="写入Title：">
-                            <el-input v-model="dialogEventAdd.title"></el-input>
-                        </el-form-item>
-                        <el-form-item label="写入简述：">
-                            <el-input v-model="dialogEventAdd.detail"></el-input>
-                        </el-form-item>
-                        <el-form-item label="写入工数：">
-                            <el-input v-model="dialogEventAdd.needTime"></el-input>
-                        </el-form-item>
-                    </el-form>
-                    
-                    <span slot="footer" class="dialog-footer">
-                        <el-button @click="addCancel">取 消</el-button>
-                        <el-button type="primary" @click="addConfirm">{{dialogEventAdd.recordMsg}}</el-button>
-                    </span>
-                </el-dialog>
-            </template>
+
+            <el-dialog title="信息操作" :visible.sync="dialogEventAdd.displayFlag" width="30%" :before-close="handleClose"><!-- 隐藏的弹窗放这里 -->
+                <el-form label-position="right" label-width="120px" :model="dialogEventAdd.formLabelAlign">
+                    <el-form-item label="作业所属：">
+                        <el-cascader v-model="dialogEventAdd.workType" :options="dialogEventAdd.options" :props="{expandTrigger: 'hover'}"></el-cascader>
+                    </el-form-item>
+                    <el-form-item label="写入Title：">
+                        <el-input v-model="dialogEventAdd.title"></el-input>
+                    </el-form-item>
+                    <el-form-item label="写入简述：">
+                        <el-input v-model="dialogEventAdd.detail"></el-input>
+                    </el-form-item>
+                    <el-form-item label="写入工数：">
+                        <el-input v-model="dialogEventAdd.needTime"></el-input>
+                    </el-form-item>
+                </el-form>
+                
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="addCancel">取 消</el-button>
+                    <el-button type="primary" @click="addConfirm">{{dialogEventAdd.recordMsg}}</el-button>
+                </span>
+            </el-dialog>
+
         </div>
     </div>
 </template>
@@ -139,35 +138,35 @@ export default {
                 displayFlag: false,             // 控制弹窗flag
                 recordMsg:'进击',               // 弹窗右下角显示的msg
                 options:[
-                    {value:'待办事项', label:'待办事项'},
-                    {value:'调查', label:'调查', children:[
-                            {value:'实施', label:'实施'},
-                            {value:'外部review', label:'外部review'},
-                            {value:'内部review', label:'内部review'}
+                    {value:'hasTodo', label:'待办事项'},
+                    {value:'inquiry', label:'调查', children:[
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
                         ]
                     },
                     {value:'详细设计书', label:'详细设计书', children:[
-                            {value:'实施', label:'实施'},
-                            {value:'外部review', label:'外部review'},
-                            {value:'内部review', label:'内部review'}
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
                         ]
                     },
                     {value:'测试式样书', label:'测试式样书', children:[
-                            {value:'实施', label:'实施'},
-                            {value:'外部review', label:'外部review'},
-                            {value:'内部review', label:'内部review'}
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
                         ]
                     },
                     {value:'代码实装', label:'代码实装', children:[
-                            {value:'实施', label:'实施'},
-                            {value:'外部review', label:'外部review'},
-                            {value:'内部review', label:'内部review'}
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
                         ]
                     },
                     {value:'测试', label:'测试', children:[
-                            {value:'实施', label:'实施'},
-                            {value:'外部review', label:'外部review'},
-                            {value:'内部review', label:'内部review'}
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
                         ]
                     },
                 ],
@@ -234,6 +233,26 @@ export default {
                                 needTime:2,
                             }
                         ],
+                    },
+                    fullDesign:{        // 详细设计书
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    testDesign:{        // 测试式样书
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    coding:{            // 代码实装
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    test:{              // 测试
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
                     }
                 },{
                     name:'秋香',
@@ -244,7 +263,6 @@ export default {
                             needTime:1,
                         }
                     ],
-                    inquiryDoing:[],
                     inquiry:{
                         doing:[],
                         outsideRV:[],
@@ -264,7 +282,6 @@ export default {
                             needTime:1,
                         }
                     ],
-                    inquiryDoing:[],
                     inquiry:{
                         doing:[],
                         outsideRV:[],
@@ -273,7 +290,6 @@ export default {
                 },{
                     name:'沈万强',
                     hasTodo:[],
-                    inquiryDoing:[],
                     inquiry:{
                         doing:[],
                         outsideRV:[],
@@ -303,30 +319,43 @@ export default {
             this.dialogEventAdd.displayFlag = false;
         },
         addConfirm(){               // 【添加】对话框点击【确定】的操作函数
-            // 先判断本组中有没有这个人 todo
             var flag = false;
+            var i = 0;
+            var workType = 0;
             // 获取数据
-            for(var i = 0; i < this.tableData.length; i++){
+            for(; i < this.tableData.length; i++){
                 if(this.tableData[i].name == this.$store.state.name){
-                    // 找到所属分类
-                    if(this.dialogEventAdd.workType[0] == 'hasTodo'){
-                        this.tableData[i].hasTodo.push({
-                            title: this.dialogEventAdd.title,
-                            detail: this.dialogEventAdd.detail,
-                            needTime: this.dialogEventAdd.needTime,
-                        });
-                    }
+                    // 找到对应的人
                     flag = true;
                     break;
                 }
             }
+            // 查找所属分类，然后把数据扔进去
+            if(this.dialogEventAdd.workType[0] == 'hasTodo'){   // 待办事项
+                this.tableData[i].hasTodo.push({
+                    title: this.dialogEventAdd.title,
+                    detail: this.dialogEventAdd.detail,
+                    needTime: this.dialogEventAdd.needTime,
+                });
+            }else if(this.dialogEventAdd.workType[0] == 'inquiry'){     // 调查
+                
+            }else if(this.dialogEventAdd.workType[0] == 'fullDesign'){     // 详细设计书
+                
+            }else if(this.dialogEventAdd.workType[0] == 'testDesign'){     // 测试式样书
+                
+            }else if(this.dialogEventAdd.workType[0] == 'coding'){     // 代码实装
+                
+            }else if(this.dialogEventAdd.workType[0] == 'test'){     // 测试
+                
+            }
+            
             // 关闭对话框
             this.dialogEventAdd.displayFlag = false;
             // 没这个人时，跳出错误框
             if(!flag){
                 alert('没这个人，无法新建');
             }
-            console.log(this.tableData);
+            console.log(this.tableData[i].hasTodo);
         },
     },
     filters:{
