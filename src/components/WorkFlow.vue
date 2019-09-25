@@ -58,7 +58,6 @@
                             </el-popover>
                         </template>
                     </el-table-column>
-                    
                     <el-table-column prop="outsideRV" label="外部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.outsideRV.length > 0">
                             <el-popover v-for="(item, index) in scope.row.inquiry.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
@@ -68,7 +67,6 @@
                             </el-popover>
                         </template>
                     </el-table-column>
-
                     <el-table-column prop="insideRV" label="内部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.insideRV.length > 0">
                             <el-popover v-for="(item, index) in scope.row.inquiry.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
@@ -79,29 +77,130 @@
                         </template>
                     </el-table-column>
                 </el-table-column>
+
                 <el-table-column prop="" label="详细设计书" :width="tableWidth">
-                    <el-table-column prop="" label="实施" :width="tableWidth"></el-table-column>
-                    <el-table-column prop="" label="外部RV" :width="tableWidth"></el-table-column>
-                    <el-table-column prop="" label="内部RV" :width="tableWidth"></el-table-column>
+                    <el-table-column prop="" label="实施" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.fullDesign.doing.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.fullDesign.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="外部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.fullDesign.outsideRV.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.fullDesign.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="内部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.fullDesign.insideRV.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.fullDesign.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
                 </el-table-column>
+
                 <el-table-column prop="" label="测试式样书" :width="tableWidth">
-                    <el-table-column prop="" label="实施" :width="tableWidth"></el-table-column>
-                    <el-table-column prop="" label="外部RV" :width="tableWidth"></el-table-column>
-                    <el-table-column prop="" label="内部RV" :width="tableWidth"></el-table-column>
+                    <el-table-column prop="" label="实施" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.testDesign.doing.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.testDesign.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="外部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.testDesign.outsideRV.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.testDesign.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="内部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.testDesign.insideRV.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.testDesign.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
                 </el-table-column>
+
                 <el-table-column prop="" label="代码实装" :width="tableWidth">
-                    <el-table-column prop="" label="实施" :width="tableWidth"></el-table-column>
-                    <el-table-column prop="" label="外部RV" :width="tableWidth"></el-table-column>
-                    <el-table-column prop="" label="内部RV" :width="tableWidth"></el-table-column>
+                    <el-table-column prop="" label="实施" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.coding.doing.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.coding.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="外部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.coding.outsideRV.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.coding.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="内部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.coding.insideRV.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.coding.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
                 </el-table-column>
+                
                 <el-table-column prop="" label="测试" :width="tableWidth">
-                    <el-table-column prop="" label="实施" :width="tableWidth"></el-table-column>
-                    <el-table-column prop="" label="外部RV" :width="tableWidth"></el-table-column>
-                    <el-table-column prop="" label="内部RV" :width="tableWidth"></el-table-column>
+                    <el-table-column prop="" label="实施" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.test.doing.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.test.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="外部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.test.outsideRV.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.test.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="" label="内部RV" :width="tableWidth">
+                        <template slot-scope="scope" v-if="scope.row.test.insideRV.length > 0">
+                            <el-popover v-for="(item, index) in scope.row.test.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                                <p><span style="color:blue">简述：</span>{{item.detail}}</p>
+                                <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
                 </el-table-column>
             </el-table>
 
-            <el-dialog title="信息操作" :visible.sync="dialogEventAdd.displayFlag" width="30%" :before-close="handleClose"><!-- 隐藏的弹窗放这里 -->
+            <!-- 隐藏的弹窗放这里 -->
+            <el-dialog title="信息操作" :visible.sync="dialogEventAdd.displayFlag" width="30%" :before-close="handleClose">
                 <el-form label-position="right" label-width="120px" :model="dialogEventAdd.formLabelAlign">
                     <el-form-item label="作业所属：">
                         <el-cascader v-model="dialogEventAdd.workType" :options="dialogEventAdd.options" :props="{expandTrigger: 'hover'}"></el-cascader>
@@ -145,25 +244,25 @@ export default {
                             {value:'insideRV', label:'内部review'}
                         ]
                     },
-                    {value:'详细设计书', label:'详细设计书', children:[
+                    {value:'fullDesign', label:'详细设计书', children:[
                             {value:'doing', label:'实施'},
                             {value:'outsideRV', label:'外部review'},
                             {value:'insideRV', label:'内部review'}
                         ]
                     },
-                    {value:'测试式样书', label:'测试式样书', children:[
+                    {value:'testDesign', label:'测试式样书', children:[
                             {value:'doing', label:'实施'},
                             {value:'outsideRV', label:'外部review'},
                             {value:'insideRV', label:'内部review'}
                         ]
                     },
-                    {value:'代码实装', label:'代码实装', children:[
+                    {value:'coding', label:'代码实装', children:[
                             {value:'doing', label:'实施'},
                             {value:'outsideRV', label:'外部review'},
                             {value:'insideRV', label:'内部review'}
                         ]
                     },
-                    {value:'测试', label:'测试', children:[
+                    {value:'test', label:'测试', children:[
                             {value:'doing', label:'实施'},
                             {value:'outsideRV', label:'外部review'},
                             {value:'insideRV', label:'内部review'}
@@ -267,6 +366,26 @@ export default {
                         doing:[],
                         outsideRV:[],
                         insideRV:[],
+                    },
+                    fullDesign:{        // 详细设计书
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    testDesign:{        // 测试式样书
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    coding:{            // 代码实装
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    test:{              // 测试
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
                     }
                 },{
                     name:'唐品',
@@ -286,11 +405,51 @@ export default {
                         doing:[],
                         outsideRV:[],
                         insideRV:[],
+                    },
+                    fullDesign:{        // 详细设计书
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    testDesign:{        // 测试式样书
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    coding:{            // 代码实装
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    test:{              // 测试
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
                     }
                 },{
                     name:'沈万强',
                     hasTodo:[],
                     inquiry:{
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    fullDesign:{        // 详细设计书
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    testDesign:{        // 测试式样书
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    coding:{            // 代码实装
+                        doing:[],
+                        outsideRV:[],
+                        insideRV:[],
+                    },
+                    test:{              // 测试
                         doing:[],
                         outsideRV:[],
                         insideRV:[],
@@ -319,7 +478,7 @@ export default {
             this.dialogEventAdd.displayFlag = false;
         },
         addConfirm(){               // 【添加】对话框点击【确定】的操作函数
-            var flag = false;
+            var flag = false;       // 是否正确的找打对应的分类flag
             var i = 0;
             var workType = 0;
             // 获取数据
@@ -330,32 +489,90 @@ export default {
                     break;
                 }
             }
-            // 查找所属分类，然后把数据扔进去
-            if(this.dialogEventAdd.workType[0] == 'hasTodo'){   // 待办事项
-                this.tableData[i].hasTodo.push({
-                    title: this.dialogEventAdd.title,
-                    detail: this.dialogEventAdd.detail,
-                    needTime: this.dialogEventAdd.needTime,
-                });
-            }else if(this.dialogEventAdd.workType[0] == 'inquiry'){     // 调查
-                
-            }else if(this.dialogEventAdd.workType[0] == 'fullDesign'){     // 详细设计书
-                
-            }else if(this.dialogEventAdd.workType[0] == 'testDesign'){     // 测试式样书
-                
-            }else if(this.dialogEventAdd.workType[0] == 'coding'){     // 代码实装
-                
-            }else if(this.dialogEventAdd.workType[0] == 'test'){     // 测试
-                
-            }
-            
-            // 关闭对话框
-            this.dialogEventAdd.displayFlag = false;
             // 没这个人时，跳出错误框
             if(!flag){
-                alert('没这个人，无法新建');
+                this.$message({
+                    type: 'info',
+                    message: '错误！没找到这个人！',
+                });
+                // 关闭对话框
+                this.dialogEventAdd.displayFlag = false;
+                return;
             }
-            console.log(this.tableData[i].hasTodo);
+
+            // 查找所属分类，然后把数据扔进去
+            var destObj = [];           // 需要扔进去的arraylist
+            if(this.dialogEventAdd.workType[0] == 'hasTodo'){   // 待办事项
+                destObj = this.tableData[i].hasTodo;
+            }else if(this.dialogEventAdd.workType[0] == 'inquiry'){     // 调查
+                if(this.dialogEventAdd.workType[1] == 'doing'){
+                    destObj =  this.tableData[i].inquiry.doing;
+                }else if(this.dialogEventAdd.workType[1] == 'outsideRV'){
+                    destObj =  this.tableData[i].inquiry.outsideRV;
+                }else if(this.dialogEventAdd.workType[1] == 'insideRV'){
+                    destObj =  this.tableData[i].inquiry.insideRV;
+                }else{
+                    flag = false;
+                }
+            }else if(this.dialogEventAdd.workType[0] == 'fullDesign'){     // 详细设计书
+                if(this.dialogEventAdd.workType[1] == 'doing'){
+                    destObj =  this.tableData[i].fullDesign.doing;
+                }else if(this.dialogEventAdd.workType[1] == 'outsideRV'){
+                    destObj =  this.tableData[i].fullDesign.outsideRV;
+                }else if(this.dialogEventAdd.workType[1] == 'insideRV'){
+                    destObj =  this.tableData[i].fullDesign.insideRV;
+                }else{
+                    flag = false;
+                }
+            }else if(this.dialogEventAdd.workType[0] == 'testDesign'){     // 测试式样书
+                if(this.dialogEventAdd.workType[1] == 'doing'){
+                    destObj =  this.tableData[i].testDesign.doing;
+                }else if(this.dialogEventAdd.workType[1] == 'outsideRV'){
+                    destObj =  this.tableData[i].testDesign.outsideRV;
+                }else if(this.dialogEventAdd.workType[1] == 'insideRV'){
+                    destObj =  this.tableData[i].testDesign.insideRV;
+                }else{
+                    flag = false;
+                }
+            }else if(this.dialogEventAdd.workType[0] == 'coding'){     // 代码实装
+                if(this.dialogEventAdd.workType[1] == 'doing'){
+                    destObj =  this.tableData[i].coding.doing;
+                }else if(this.dialogEventAdd.workType[1] == 'outsideRV'){
+                    destObj =  this.tableData[i].coding.outsideRV;
+                }else if(this.dialogEventAdd.workType[1] == 'insideRV'){
+                    destObj =  this.tableData[i].coding.insideRV;
+                }else{
+                    flag = false;
+                }
+            }else if(this.dialogEventAdd.workType[0] == 'test'){     // 测试
+                if(this.dialogEventAdd.workType[1] == 'doing'){
+                    destObj =  this.tableData[i].test.doing;
+                }else if(this.dialogEventAdd.workType[1] == 'outsideRV'){
+                    destObj =  this.tableData[i].test.outsideRV;
+                }else if(this.dialogEventAdd.workType[1] == 'insideRV'){
+                    destObj =  this.tableData[i].test.insideRV;
+                }else{
+                    flag = false;
+                }
+            }
+
+            if(!flag){
+                this.$message({
+                    type: 'info',
+                    message: '错误！没找打此作业的分类！',
+                });
+                // 关闭对话框
+                this.dialogEventAdd.displayFlag = false;
+                return;
+            }
+            
+            destObj.push({
+                title: this.dialogEventAdd.title,
+                detail: this.dialogEventAdd.detail,
+                needTime: this.dialogEventAdd.needTime,
+            });
+            // 关闭对话框
+            this.dialogEventAdd.displayFlag = false;
         },
     },
     filters:{
