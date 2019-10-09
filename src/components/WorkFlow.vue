@@ -13,8 +13,6 @@
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command=1>添加</el-dropdown-item>
-                            <el-dropdown-item command=2>删除</el-dropdown-item>
-                            <el-dropdown-item command=3>更新</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </el-col>
@@ -40,9 +38,11 @@
 
                 <el-table-column prop="hasTodo" label="待办事项" :width="tableWidth">
                     <template slot-scope="scope" v-if="scope.row.hasTodo.length > 0">
-                        <el-popover v-for="(item, index) in scope.row.hasTodo" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                        <el-popover v-for="(item, index) in scope.row.hasTodo" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                             <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                             <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                            <el-button size="mini" type="primary" @click="tipUpdate(item)">変更</el-button>
+                            <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                             <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                         </el-popover>
                     </template>
@@ -233,10 +233,10 @@ export default {
         return{
             msg:'dddddddd',                     // test
 
-            dialogEventAdd:{                 // 事项变动对话框对应数据
+            dialogEventAdd:{                    // 事项变动对话框对应数据
                 displayFlag: false,             // 控制弹窗flag
                 recordMsg:'进击',               // 弹窗右下角显示的msg
-                options:[
+                options:[                       // 作业类型选择项设定
                     {value:'hasTodo', label:'待办事项'},
                     {value:'inquiry', label:'调查', children:[
                             {value:'doing', label:'实施'},
@@ -269,10 +269,10 @@ export default {
                         ]
                     },
                 ],
-                workType:'',
-                title:'',
-                detail:'',
-                needTime:'',
+                workType:'',        // 输入后 - 作业类型
+                title:'',           // 输入后 - 标题
+                detail:'',          // 输入后 - 具体事项
+                needTime:'',        // 输入后 - 所需工时
             },
 
             tableWidth: '100',                  // 表格的宽设置
@@ -281,21 +281,25 @@ export default {
                     name:'马茹',                    // 人员姓名
                     hasTodo:[                       // 待办事项
                         {
-                            title:'测试',
-                            detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
-                            needTime:2,
+                            title:'测试',           // 标题
+                            detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',       // 具体内容
+                            needTime:2,             // 所需工时
+                            tipVisible: false       // popover弹出框的显示控制
                         },{
                             title:'coding',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
+                            tipVisible: false
                         },{
                             title:'式样书作成',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
+                            tipVisible: false
                         },{
                             title:'调查',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
+                            tipVisible: false
                         }
                     ],
                     inquiry:{           // 调查
@@ -304,18 +308,22 @@ export default {
                                 title:'调查_实施',
                                 detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                                 needTime:2,
+                                tipVisible: false
                             },{
                                 title:'coding',
                                 detail:'客户紧急需求，明天上午需要做完',
                                 needTime:1,
+                                tipVisible: false
                             },{
                                 title:'式样书作成',
                                 detail:'客户紧急需求，明天上午需要做完',
                                 needTime:1,
+                                tipVisible: false
                             },{
                                 title:'调查',
                                 detail:'客户紧急需求，明天上午需要做完',
                                 needTime:1,
+                                tipVisible: false
                             }
                         ],
                         outsideRV:[     // 外部RV
@@ -323,6 +331,7 @@ export default {
                                 title:'调查_外部RV',
                                 detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                                 needTime:2,
+                                tipVisible: false
                             }
                         ],
                         insideRV:[      // 内部RV
@@ -330,6 +339,7 @@ export default {
                                 title:'调查_内部RV',
                                 detail:'今天要在xxx点之前做完吃晚饭接着看电视啊啊啊啊啊啊啊\n周末约会走起啊',
                                 needTime:2,
+                                tipVisible: false
                             }
                         ],
                     },
@@ -360,6 +370,7 @@ export default {
                             title:'调查',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
+                            tipVisible: false
                         }
                     ],
                     inquiry:{
@@ -394,11 +405,13 @@ export default {
                             title:'调查',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
+                            tipVisible: false
                         },
                         {
                             title:'调查',
                             detail:'客户紧急需求，明天上午需要做完',
                             needTime:1,
+                            tipVisible: false
                         }
                     ],
                     inquiry:{
@@ -456,11 +469,10 @@ export default {
                     }
                 }
             ],
-
         }
     },
     methods:{
-        handleCommand(command){     // 对应下拉菜单的数据操作，false：隐藏， 1：添加， 2：删除， 3：更新
+        handleCommand(command){     // 对应下拉菜单的数据操作，false：隐藏， 1：添加
             if(command == 1){
                 this.dialogEventAdd.displayFlag = true;
             }else if(command == 2){
@@ -472,7 +484,7 @@ export default {
             }
         },
         handleClose(){              // 【添加】对话框关闭前的操作函数
-            // todo
+            this.dialogEventAdd.displayFlag = false;
         },
         addCancel(){                // 【添加】对话框点击【取消】的操作函数
             this.dialogEventAdd.displayFlag = false;
@@ -574,6 +586,13 @@ export default {
             // 关闭对话框
             this.dialogEventAdd.displayFlag = false;
         },
+        tipUpdate(item){
+            console.log(item);
+            item.tipVisible = false;
+        },
+        tipDelete(item){
+            item.tipVisible = false;
+        }
     },
     filters:{
         filterPeriod: (time) => {
