@@ -51,7 +51,7 @@
                 <el-table-column prop="inquiry" label="调查" :width="tableWidth">
                     <el-table-column prop="doing" label="实施" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.doing.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.inquiry.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.inquiry.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
@@ -60,7 +60,7 @@
                     </el-table-column>
                     <el-table-column prop="outsideRV" label="外部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.outsideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.inquiry.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.inquiry.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
@@ -69,7 +69,7 @@
                     </el-table-column>
                     <el-table-column prop="insideRV" label="内部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.insideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.inquiry.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.inquiry.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" >
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
