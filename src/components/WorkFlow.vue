@@ -9,7 +9,7 @@
                 <el-col :span="1">
                     <el-dropdown trigger="click" @command='handleCommand'>
                         <el-button type="primary">
-                            事项变动<i class="el-icon-arrow-down el-icon--right"></i>
+                            菜单<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command=1>添加</el-dropdown-item>
@@ -41,7 +41,7 @@
                         <el-popover v-for="(item, index) in scope.row.hasTodo" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                             <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                             <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
-                            <el-button size="mini" type="primary" @click="tipUpdate(item)">変更</el-button>
+                            <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
                             <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                             <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                         </el-popover>
@@ -54,6 +54,8 @@
                             <el-popover v-for="(item, index) in scope.row.inquiry.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
@@ -63,15 +65,19 @@
                             <el-popover v-for="(item, index) in scope.row.inquiry.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="insideRV" label="内部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.inquiry.insideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.inquiry.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" >
+                            <el-popover v-for="(item, index) in scope.row.inquiry.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
@@ -81,27 +87,33 @@
                 <el-table-column prop="" label="详细设计书" :width="tableWidth">
                     <el-table-column prop="" label="实施" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.fullDesign.doing.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.fullDesign.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.fullDesign.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="外部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.fullDesign.outsideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.fullDesign.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.fullDesign.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="内部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.fullDesign.insideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.fullDesign.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.fullDesign.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
@@ -111,27 +123,33 @@
                 <el-table-column prop="" label="测试式样书" :width="tableWidth">
                     <el-table-column prop="" label="实施" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.testDesign.doing.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.testDesign.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.testDesign.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="外部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.testDesign.outsideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.testDesign.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.testDesign.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="内部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.testDesign.insideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.testDesign.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.testDesign.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
@@ -141,27 +159,33 @@
                 <el-table-column prop="" label="代码实装" :width="tableWidth">
                     <el-table-column prop="" label="实施" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.coding.doing.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.coding.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.coding.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="外部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.coding.outsideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.coding.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.coding.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="内部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.coding.insideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.coding.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.coding.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
@@ -171,27 +195,33 @@
                 <el-table-column prop="" label="测试" :width="tableWidth">
                     <el-table-column prop="" label="实施" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.test.doing.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.test.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.test.doing" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="外部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.test.outsideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.test.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.test.outsideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
                     </el-table-column>
                     <el-table-column prop="" label="内部RV" :width="tableWidth">
                         <template slot-scope="scope" v-if="scope.row.test.insideRV.length > 0">
-                            <el-popover v-for="(item, index) in scope.row.test.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click">
+                            <el-popover v-for="(item, index) in scope.row.test.insideRV" :key="index" placement="right" :title="item.title" width="150" trigger="click" v-model="item.tipVisible">
                                 <p><span style="color:blue">简述：</span>{{item.detail}}</p>
                                 <p><span style="color:blue">期间：</span>{{item.needTime | filterPeriod}}</p>
+                                <el-button size="mini" type="primary" @click="tipChange(item)">変更</el-button>
+                                <el-button size="mini" type="danger" @click="tipDelete(item)">削除</el-button>
                                 <el-button slot="reference" type="primary" icon="el-icon-star-off" circle></el-button>
                             </el-popover>
                         </template>
@@ -200,8 +230,9 @@
             </el-table>
 
             <!-- 隐藏的弹窗放这里 -->
-            <el-dialog title="信息操作" :visible.sync="dialogEventAdd.displayFlag" width="30%" :before-close="handleClose">
-                <el-form label-position="right" label-width="120px" :model="dialogEventAdd.formLabelAlign">
+            <!-- 作业对话框 - add -->
+            <el-dialog title="新建作业" :visible.sync="dialogEventAdd.displayFlag" width="30%" :before-close="dialogEventAdd.displayFlag">
+                <el-form label-position="right" label-width="120px">
                     <el-form-item label="作业所属：">
                         <el-cascader v-model="dialogEventAdd.workType" :options="dialogEventAdd.options" :props="{expandTrigger: 'hover'}"></el-cascader>
                     </el-form-item>
@@ -217,8 +248,47 @@
                 </el-form>
                 
                 <span slot="footer" class="dialog-footer">
-                    <el-button @click="addCancel">取 消</el-button>
-                    <el-button type="primary" @click="addConfirm">{{dialogEventAdd.recordMsg}}</el-button>
+                    <el-button @click="cancel(dialogEventAdd)">取 消</el-button>
+                    <el-button type="primary" @click="confirm">{{dialogEventAdd.recordMsg}}</el-button>
+                </span>
+            </el-dialog>
+
+            <!-- 作业对话框 - change -->
+            <el-dialog title="变更作业" :visible.sync="dialogEventChange.displayFlag" width="40%" :before-close="dialogEventChange.displayFlag">
+
+                <el-form label-position="right" label-width="120px" disabled>
+                    <el-form-item label="作业所属：">
+                        <el-cascader v-model="dialogEventChange.workTypeBefore" :options="dialogEventChange.options" :props="{expandTrigger: 'hover'}"></el-cascader>
+                    </el-form-item>
+                    <el-form-item label="Title：">
+                        <el-input v-model="dialogEventChange.titleBefore"></el-input>
+                    </el-form-item>
+                    <el-form-item label="简述：">
+                        <el-input v-model="dialogEventChange.detailBefore"></el-input>
+                    </el-form-item>
+                    <el-form-item label="工数：">
+                        <el-input v-model="dialogEventChange.needTimeBefore"></el-input>
+                    </el-form-item>
+                </el-form>
+                <el-button type="primary" icon="el-icon-arrow-down" circle></el-button>
+                <el-form label-position="right" label-width="120px">
+                    <el-form-item label="作业所属：">
+                        <el-cascader v-model="dialogEventChange.workTypeAfter" :options="dialogEventChange.options" :props="{expandTrigger: 'hover'}"></el-cascader>
+                    </el-form-item>
+                    <el-form-item label="写入Title：">
+                        <el-input v-model="dialogEventChange.titleAfter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="写入简述：">
+                        <el-input v-model="dialogEventChange.detailAfter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="写入工数：">
+                        <el-input v-model="dialogEventChange.needTimeAfter"></el-input>
+                    </el-form-item>
+                </el-form>
+
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="cancel(dialogEventChange)">取 消</el-button>
+                    <el-button type="danger" @click="confirm">{{dialogEventChange.recordMsg}}</el-button>
                 </span>
             </el-dialog>
 
@@ -233,7 +303,7 @@ export default {
         return{
             msg:'dddddddd',                     // test
 
-            dialogEventAdd:{                    // 事项变动对话框对应数据
+            dialogEventAdd:{                    // 添加事项 - 对应数据
                 displayFlag: false,             // 控制弹窗flag
                 recordMsg:'进击',               // 弹窗右下角显示的msg
                 options:[                       // 作业类型选择项设定
@@ -269,10 +339,55 @@ export default {
                         ]
                     },
                 ],
-                workType:'',        // 输入后 - 作业类型
-                title:'',           // 输入后 - 标题
-                detail:'',          // 输入后 - 具体事项
-                needTime:'',        // 输入后 - 所需工时
+                workType:'',        // 作业类型
+                title:'',           // 标题
+                detail:'',          // 具体事项
+                needTime:'',        // 所需工时
+            },
+            dialogEventChange:{
+                displayFlag: false,             // 控制弹窗flag
+                recordMsg:'变更',               // 弹窗右下角显示的msg
+                options:[                       // 作业类型选择项设定
+                    {value:'hasTodo', label:'待办事项'},
+                    {value:'inquiry', label:'调查', children:[
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
+                        ]
+                    },
+                    {value:'fullDesign', label:'详细设计书', children:[
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
+                        ]
+                    },
+                    {value:'testDesign', label:'测试式样书', children:[
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
+                        ]
+                    },
+                    {value:'coding', label:'代码实装', children:[
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
+                        ]
+                    },
+                    {value:'test', label:'测试', children:[
+                            {value:'doing', label:'实施'},
+                            {value:'outsideRV', label:'外部review'},
+                            {value:'insideRV', label:'内部review'}
+                        ]
+                    },
+                ],
+                workTypeBefore:'',        // 作业类型 - 变更前
+                titleBefore:'',           // 标题     - 变更前
+                detailBefore:'',          // 具体事项 - 变更前
+                needTimeBefore:'',        // 所需工时 - 变更前
+                workTypeAfter:'',         // 作业类型 - 变更后
+                titleAfter:'',            // 标题     - 变更后
+                detailAfter:'',           // 具体事项 - 变更后
+                needTimeAfter:'',         // 所需工时 - 变更后
             },
 
             tableWidth: '100',                  // 表格的宽设置
@@ -483,13 +598,10 @@ export default {
 
             }
         },
-        handleClose(){              // 【添加】对话框关闭前的操作函数
-            this.dialogEventAdd.displayFlag = false;
+        cancel(obj){                // 点击【取消】的操作函数
+            obj.displayFlag = false;
         },
-        addCancel(){                // 【添加】对话框点击【取消】的操作函数
-            this.dialogEventAdd.displayFlag = false;
-        },
-        addConfirm(){               // 【添加】对话框点击【确定】的操作函数
+        confirm(){               // 【添加】对话框点击【确定】的操作函数
             var flag = false;       // 是否正确的找打对应的分类flag
             var i = 0;
             var workType = 0;
@@ -586,9 +698,19 @@ export default {
             // 关闭对话框
             this.dialogEventAdd.displayFlag = false;
         },
-        tipUpdate(item){
-            console.log(item);
+        tipChange(item){
             item.tipVisible = false;
+            this.dialogEventChange.displayFlag = true;
+            // 初始化变更前的数据
+            this.dialogEventChange.workTypeBefore = '';
+            this.dialogEventChange.titleBefore = '';
+            this.dialogEventChange.detailBefore = '';
+            this.dialogEventChange.needTimeBefore = '';
+            // 写入变更前的数据
+            this.dialogEventChange.workTypeBefore = item.workType;
+            this.dialogEventChange.titleBefore = item.title;
+            this.dialogEventChange.detailBefore = item.detail;
+            this.dialogEventChange.needTimeBefore = item.needTime;
         },
         tipDelete(item){
             item.tipVisible = false;

@@ -4,6 +4,7 @@ import mainPage from '@/components/mainPage'
 import WorkFlow from '@/components/WorkFlow'
 import ReportPage from '@/components/ReportPage'
 import Home from '@/components/Home'
+import HelloWorld from '@/components/HelloWorld'
 
 
 Vue.use(Router)
@@ -14,6 +15,11 @@ export default new Router({
       path:'/',
       name:'',
       redirect:'/mainPage/home',
+    },
+    {
+      path:'/HelloWorld',
+      name:'HelloWorld',
+      component: HelloWorld,
     },
     {
       path: '/mainPage',
